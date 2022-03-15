@@ -5,8 +5,6 @@ import { closePopup } from '../../helpers/popup.service';
 import { setUserName } from '../../helpers/data.service';
 import css from './WelcomePopup.module.css';
 
-const WelcomeHeader = styled.h1``;
-
 export default function WelcomePopup() {
   const [name, setName] = useState('');
   const handleFormSubmit = useCallback((e: FormEvent) => {
@@ -31,3 +29,5 @@ export default function WelcomePopup() {
     </>
   );
 }
+
+const WelcomeHeader = styled.h1``;

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { Card } from '../../../types';
+import { CardType } from '../../../types';
 import Editable from '../../Editable';
 import {
   createComment, removeCard, setCardDescription, setCardHeader,
@@ -10,18 +10,7 @@ import CardComment from './CardComment';
 import CommentForm from './CommentForm';
 import Author from '../../helpers/Author';
 
-export type CardPopupProps = { card: Card, columnTitle: string };
-
-const CardHeader = styled.h3`font-size: 2em`;
-const CloseButton = styled.button`
-  border: 0;
-  background: none;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  font-size: 1.5em;
-`;
-const CardContent = styled.div`text-align: justify`;
+export type CardPopupProps = { card: CardType, columnTitle: string };
 
 export default function CardPopup(props: CardPopupProps) {
   const {
@@ -37,15 +26,15 @@ export default function CardPopup(props: CardPopupProps) {
 
   const [isCreatingComment, setIsCreatingComment] = useState(false);
 
-  const changeCardTitle = useCallback((newTitle: string) => {
+  const handleHeaderChange = useCallback((newTitle: string) => {
     setCardHeader(id, newTitle);
   }, [id]);
 
-  const closePopupClick = useCallback(() => {
+  const handleClose = useCallback(() => {
     closePopup();
   }, []);
 
-  const removeCardClick = useCallback(() => {
+  const handleCardRemoveClick = useCallback(() => {
     removeCard(id);
     closePopup();
   }, [id]);
@@ -54,11 +43,11 @@ export default function CardPopup(props: CardPopupProps) {
     setIsCreatingComment(true);
   }, [setIsCreatingComment]);
 
-  const setDescription = useCallback((newDescription) => {
+  const handleDescriptionChange = useCallback((newDescription) => {
     setCardDescription(id, newDescription);
   }, [id]);
 
-  const createCommentSubmit = useCallback((text: string) => {
+  const handleCommentFormSubmit = useCallback((text: string) => {
     setIsCreatingComment(false);
     createComment(id, { text });
   }, [id, setIsCreatingComment]);
@@ -66,16 +55,16 @@ export default function CardPopup(props: CardPopupProps) {
   return (
     <>
       <CardHeader>
-        <Editable value={header} onChange={changeCardTitle} />
-        <CloseButton onClick={closePopupClick}>&times;</CloseButton>
+        <Editable value={header} onChange={handleHeaderChange} />
+        <CloseButton onClick={handleClose}>&times;</CloseButton>
       </CardHeader>
       <small>{`Столбец: ${columnTitle}`}</small>
       <CardContent>
-        <Editable multiline onChange={setDescription} value={description || 'Описание...'} />
+        <Editable multiline onChange={handleDescriptionChange} value={description || 'Описание... (нажмите тут, чтобы отредактировать описание)'} />
       </CardContent>
       <hr />
       <div>
-        <button type="button" onClick={removeCardClick}>Удалить</button>
+        <button type="button" onClick={handleCardRemoveClick}>Удалить карточку</button>
         <Author>{author}</Author>
       </div>
       <h4>Комментарии</h4>
@@ -86,8 +75,19 @@ export default function CardPopup(props: CardPopupProps) {
         />
       ))}
       {isCreatingComment
-        ? <CommentForm onSubmit={createCommentSubmit} />
+        ? <CommentForm onSubmit={handleCommentFormSubmit} />
         : <button type="button" onClick={handleAddCommentClick}>Добавить</button>}
     </>
   );
 }
+
+const CardHeader = styled.h3`font-size: 2em`;
+const CloseButton = styled.button`
+  border: 0;
+  background: none;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 1.5em;
+`;
+const CardContent = styled.div`text-align: justify`;

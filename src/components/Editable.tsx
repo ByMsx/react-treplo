@@ -8,24 +8,21 @@ export type EditableTitleProps = {
   multiline?: boolean;
 };
 
-const Textarea = styled.textarea`
-  width: 100%;
-`;
-
 export default function Editable(props: EditableTitleProps) {
-  const { value, onChange, multiline = false } = props;
-  const [changedTitle, setTitle] = useState(value || '');
+  const { value = '', onChange, multiline = false } = props;
+  const [changedTitle, setTitle] = useState(value);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
 
-  const hideForm = useCallback(() => {
+  const handleCancelClick = useCallback(() => {
     setIsEditingTitle(false);
+    onChange('');
   }, [setIsEditingTitle]);
 
   const handleFormSubmit = useCallback((event) => {
     event.preventDefault();
-    hideForm();
+    setIsEditingTitle(false);
     onChange(changedTitle);
-  }, [onChange, hideForm, changedTitle]);
+  }, [onChange, handleCancelClick, changedTitle]);
 
   return (
     <div>
@@ -35,7 +32,7 @@ export default function Editable(props: EditableTitleProps) {
             ? <Textarea value={changedTitle} onChange={(e) => setTitle(e.target.value)} />
             : <Input value={changedTitle} onChange={setTitle} />}
           <button type="submit">✅</button>
-          <button type="button" onClick={hideForm}>❌</button>
+          <button type="button" onClick={handleCancelClick}>❌</button>
         </form>
       // eslint-disable-next-line max-len
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
@@ -43,3 +40,7 @@ export default function Editable(props: EditableTitleProps) {
     </div>
   );
 }
+
+const Textarea = styled.textarea`
+  width: 100%;
+`;

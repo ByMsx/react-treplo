@@ -1,12 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { Comment } from '../../../types';
+import { CommentType } from '../../../types';
 
-const CommentTextarea = styled.textarea`
-  width: 100%;
-`;
-
-export type CommentFormProps = { text?: Comment['text'], onSubmit: (newText: string) => void };
+export type CommentFormProps = { text?: CommentType['text'], onSubmit: (newText: string) => void };
 
 export default function CommentForm(props: CommentFormProps) {
   const { text: initialText = '', onSubmit } = props;
@@ -24,3 +20,7 @@ export default function CommentForm(props: CommentFormProps) {
     </form>
   );
 }
+
+const CommentTextarea = styled.textarea`
+  width: 100%;
+`;

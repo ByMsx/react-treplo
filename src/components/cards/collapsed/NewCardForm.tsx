@@ -1,36 +1,36 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import * as Data from '../../../types';
 import Input from '../../helpers/Input';
 import CardBodyContainer from './CardBodyContainer';
+import { CardType } from '../../../types';
 
 export type NewCardFormProps = {
-  onCreateCard: (v: Pick<Data.Card, 'header'>) => void;
+  onCreate: (v: Pick<CardType, 'header'>) => void;
 };
 
-const Form = styled.form`
-  display: block;
-  margin-top: 2em;
-`;
-
 export default function NewCardForm(props: NewCardFormProps) {
-  const { onCreateCard } = props;
+  const { onCreate } = props;
 
   const [header, setHeader] = useState('');
 
-  const handleSubmit = useCallback((event) => {
+  const handleFormSubmit = useCallback((event) => {
     event.preventDefault();
-    onCreateCard({
+    onCreate({
       header,
     });
-  }, [header, onCreateCard]);
+  }, [header, onCreate]);
 
   return (
     <CardBodyContainer>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleFormSubmit}>
         <Input value={header} onChange={setHeader} />
         <button type="submit">Создать карточку</button>
       </Form>
     </CardBodyContainer>
   );
 }
+
+const Form = styled.form`
+  display: block;
+  margin-top: 2em;
+`;

@@ -28,6 +28,7 @@ module.exports = {
     'jsx-a11y/label-has-associated-control': [2, {
       controlComponents: ['Input'],
     }],
+    'no-use-before-define': 0,
   },
   settings: {
     'import/resolver': {

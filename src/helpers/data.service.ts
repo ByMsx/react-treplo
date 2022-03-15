@@ -1,6 +1,6 @@
-import { Card, Column, Comment } from '../types';
+import { CardType, ColumnType, CommentType } from '../types';
 
-const DEFAULT_COLUMNS: Column[] = [{
+const DEFAULT_COLUMNS: ColumnType[] = [{
   id: 1,
   title: 'TODO',
   cards: [{
@@ -36,11 +36,11 @@ const defaultState = {
 interface State {
   id: number;
   name?: string;
-  columns: Column[];
+  columns: ColumnType[];
 }
 
 let mutableState: State;
-let onUpdateCb: (cols: Column[]) => void;
+let onUpdateCb: (cols: ColumnType[]) => void;
 
 function getStateFromLocalStorage(): State {
   const json = localStorage.getItem('appState');
@@ -52,7 +52,7 @@ function getStateFromLocalStorage(): State {
 }
 
 // eslint-disable-next-line no-underscore-dangle
-function getColumns_(): Column[] {
+function getColumns_(): ColumnType[] {
   let columns;
   try {
     columns = mutableState.columns;
@@ -81,11 +81,11 @@ export function load() {
   }
 }
 
-export function setOnUpdate(cb: (cols: Column[]) => void): void {
+export function setOnUpdate(cb: (cols: ColumnType[]) => void): void {
   onUpdateCb = cb;
 }
 
-export function getColumn(columnId: Column['id']): Column {
+export function getColumn(columnId: ColumnType['id']): ColumnType {
   const column = mutableState.columns.find((col) => col.id === columnId);
   if (!column) {
     throw new Error('Column not found');
@@ -94,7 +94,7 @@ export function getColumn(columnId: Column['id']): Column {
   return column;
 }
 
-export function getCard(id: Card['id']): Card {
+export function getCard(id: CardType['id']): CardType {
   const card = mutableState.columns
     .map((col) => col.cards)
     .flat()
@@ -107,32 +107,32 @@ export function getCard(id: Card['id']): Card {
   return card;
 }
 
-export function getColumns(): Column[] {
+export function getColumns(): ColumnType[] {
   return getColumns_();
 }
 
-export function setColumnTitle(columnId: Column['id'], title: string) {
+export function setColumnTitle(columnId: ColumnType['id'], title: string) {
   const col = getColumn(columnId);
   col.title = title;
 
   commitMutableState();
 }
 
-export function setCardHeader(cardId: Card['id'], header: string) {
+export function setCardHeader(cardId: CardType['id'], header: string) {
   const card = getCard(cardId);
   card.header = header;
 
   commitMutableState();
 }
 
-export function setCardDescription(cardId: Card['id'], description: string) {
+export function setCardDescription(cardId: CardType['id'], description: string) {
   const card = getCard(cardId);
   card.description = description;
 
   commitMutableState();
 }
 
-export function removeCard(id: Card['id']) {
+export function removeCard(id: CardType['id']) {
   let cardIndex = -1;
   const parentColumn = mutableState.columns
     .find((column) => {
@@ -165,7 +165,7 @@ export function setUserName(name: string): void {
   commitMutableState();
 }
 
-export function createCard(columnId: Column['id'], cardInfo: Pick<Card, 'header'>) {
+export function createCard(columnId: ColumnType['id'], cardInfo: Pick<CardType, 'header'>) {
   const column = getColumn(columnId);
   column.cards.push({
     ...cardInfo,
@@ -177,7 +177,7 @@ export function createCard(columnId: Column['id'], cardInfo: Pick<Card, 'header'
   commitMutableState();
 }
 
-export function getComment(commentId: Comment['id']) {
+export function getComment(commentId: CommentType['id']) {
   const foundComment = mutableState.columns
     .map((column) => column.cards)
     .flat()
@@ -192,14 +192,14 @@ export function getComment(commentId: Comment['id']) {
   return foundComment;
 }
 
-export function setCommentText(commentId: Comment['id'], newText: Comment['text']) {
+export function setCommentText(commentId: CommentType['id'], newText: CommentType['text']) {
   const comment = getComment(commentId);
   comment.text = newText;
 
   commitMutableState();
 }
 
-export function removeComment(commentId: Comment['id']) {
+export function removeComment(commentId: CommentType['id']) {
   let commentIdx = -1;
   const parentCard = mutableState.columns
     .map((column) => column.cards)
@@ -218,7 +218,7 @@ export function removeComment(commentId: Comment['id']) {
   }
 }
 
-export function createComment(parentCardId: Card['id'], data: Pick<Comment, 'text'>) {
+export function createComment(parentCardId: CardType['id'], data: Pick<CommentType, 'text'>) {
   const card = getCard(parentCardId);
   card.comments.push({
     author: getUserName(),

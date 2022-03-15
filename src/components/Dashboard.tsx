@@ -1,17 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import Column from './Column';
-import * as Data from '../types';
-
-const Container = styled.div`
-  padding: 0 2em 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
+import { ColumnType } from '../types';
 
 export interface DashboardProps {
-  columns: Data.Column[];
+  columns: ColumnType[];
 }
 
 export default function Dashboard(props: DashboardProps) {
@@ -34,3 +27,10 @@ export default function Dashboard(props: DashboardProps) {
     </div>
   );
 }
+
+const Container = styled.div`
+  padding: 0 2em 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;

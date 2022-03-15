@@ -9,7 +9,10 @@ export type InputProps = {
 
 export default function Input(props: InputProps) {
   const {
-    id, value, className, onChange,
+    id = '',
+    value = '',
+    className = '',
+    onChange,
   } = props;
 
   const handleOnChange = useCallback((event) => {
