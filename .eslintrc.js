@@ -25,6 +25,9 @@ module.exports = {
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'import/extensions': 0,
     'react/require-default-props': 0,
+    'jsx-a11y/label-has-associated-control': [2, {
+      controlComponents: ['Input'],
+    }],
   },
   settings: {
     'import/resolver': {

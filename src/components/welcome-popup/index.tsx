@@ -1,8 +1,9 @@
 import React, { FormEvent, useCallback, useState } from 'react';
 import styled from 'styled-components';
-import Input from './helpers/Input';
-import { closePopup } from '../helpers/popup.service';
-import { setUserName } from '../helpers/data.service';
+import Input from '../helpers/Input';
+import { closePopup } from '../../helpers/popup.service';
+import { setUserName } from '../../helpers/data.service';
+import css from './WelcomePopup.module.css';
 
 const WelcomeHeader = styled.h1``;
 
@@ -19,11 +20,8 @@ export default function WelcomePopup() {
       <WelcomeHeader>Добро пожаловать!</WelcomeHeader>
       <p>Давай познакомимся, чтобы ты мог ощутить все возможности этого Трепло.</p>
       <form onSubmit={handleFormSubmit}>
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <label>
-          Как тебя зовут?
-          <Input onChange={setName} value={name} />
-        </label>
+        <label htmlFor="nameInput">Как тебя зовут?</label>
+        <Input className={css.inputWithMl} id="nameInput" onChange={setName} value={name} />
         <button type="submit">Погнали!</button>
       </form>
       <p>

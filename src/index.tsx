@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { isUserNameSet, load } from './helpers/data.service';
 import { closePopup, openPopup } from './helpers/popup.service';
-import WelcomePopup from './components/WelcomePopup';
+import WelcomePopup from './components/welcome-popup';
 
 load();
 

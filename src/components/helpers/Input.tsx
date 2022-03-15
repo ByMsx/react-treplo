@@ -1,12 +1,16 @@
 import React, { useCallback } from 'react';
 
 export type InputProps = {
+  className?: string;
+  id?: string;
   value?: string;
   onChange?: (v: string) => void;
 };
 
 export default function Input(props: InputProps) {
-  const { value, onChange } = props;
+  const {
+    id, value, className, onChange,
+  } = props;
 
   const handleOnChange = useCallback((event) => {
     if (onChange) {
@@ -14,5 +18,5 @@ export default function Input(props: InputProps) {
     }
   }, [onChange]);
 
-  return <input type="string" value={value} onChange={handleOnChange} />;
+  return <input type="string" className={className} id={id} value={value} onChange={handleOnChange} />;
 }
