@@ -40,7 +40,6 @@ export default function Column(props: ColumnProps) {
     setIsCreatingNewCard(false);
   }, [id, setIsCreatingNewCard]);
 
-  // TODO: make pretty button
   return (
     <ColumnBody>
       <CardHeader>

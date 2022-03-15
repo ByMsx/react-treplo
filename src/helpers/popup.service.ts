@@ -9,8 +9,7 @@ let popupOpenedCallback: () => void;
 let popupClosedCallback: () => void;
 
 let popupInfo: PopupInfo<any> | null;
-// TODO: fix types
-export function openPopup(fn: React.FunctionComponentFactory<any>, props: unknown) {
+export function openPopup<P>(fn: React.FunctionComponentFactory<P>, props: P) {
   popupInfo = {
     fn,
     props,
