@@ -6,7 +6,7 @@ const CommentTextarea = styled.textarea`
   width: 100%;
 `;
 
-export type CommentFormProps = Partial<Omit<Comment, 'id'>> & { onSubmit: (newText: string) => void };
+export type CommentFormProps = { text?: Comment['text'], onSubmit: (newText: string) => void };
 
 export default function CommentForm(props: CommentFormProps) {
   const { text: initialText = '', onSubmit } = props;

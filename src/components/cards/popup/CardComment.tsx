@@ -4,11 +4,11 @@ import CommentForm from './CommentForm';
 import { removeComment, setCommentText } from '../../../helpers/data.service';
 import Author from '../../helpers/Author';
 
-export type CardCommentProps = Comment & { onCardChanged: () => void };
+export type CardCommentProps = { comment: Comment };
 
 export default function CardComment(props: CardCommentProps) {
   const {
-    id, text, onCardChanged, author,
+    comment: { id, text, author },
   } = props;
   const [isCommentEditing, setIsCommentEditing] = useState(false);
 
@@ -23,8 +23,7 @@ export default function CardComment(props: CardCommentProps) {
   const handleCommentChange = useCallback((newText: string) => {
     setIsCommentEditing(false);
     setCommentText(id, newText);
-    onCardChanged();
-  }, [id, onCardChanged, setIsCommentEditing]);
+  }, [id, setIsCommentEditing]);
 
   return (
     <div>

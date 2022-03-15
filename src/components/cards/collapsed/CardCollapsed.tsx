@@ -6,16 +6,16 @@ import { openPopup } from '../../../helpers/popup.service';
 import CardPopup from '../popup';
 import Author from '../../helpers/Author';
 
-// used at CardCollapsed.tsx:19
+// used at ../popup/index.tsx:33
 // eslint-disable-next-line react/no-unused-prop-types
-export type CardProps = Data.Card & { columnTitle: string };
+export type CardProps = { card: Data.Card, columnTitle: string };
 
 const Title = styled.h3``;
 const Icons = styled.div`display: inline-block; width: 50%; text-align: left;`;
 const AuthorWrapper = styled.div`display: inline-block; width: 50%`;
 
 export default function CardCollapsed(props: CardProps) {
-  const { header, comments, author } = props;
+  const { card: { header, comments, author } } = props;
   const commentsCount = comments?.length;
 
   const openCardModal = useCallback(() => {

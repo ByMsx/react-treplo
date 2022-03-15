@@ -10,7 +10,7 @@ import CardComment from './CardComment';
 import CommentForm from './CommentForm';
 import Author from '../../helpers/Author';
 
-export type CardPopupProps = Card & { columnTitle: string };
+export type CardPopupProps = { card: Card, columnTitle: string };
 
 const CardHeader = styled.h3`font-size: 2em`;
 const CloseButton = styled.button`
@@ -25,11 +25,13 @@ const CardContent = styled.div`text-align: justify`;
 
 export default function CardPopup(props: CardPopupProps) {
   const {
-    id,
-    header,
-    comments,
-    description,
-    author,
+    card: {
+      id,
+      header,
+      comments,
+      description,
+      author,
+    },
     columnTitle,
   } = props;
 
@@ -37,7 +39,6 @@ export default function CardPopup(props: CardPopupProps) {
 
   const changeCardTitle = useCallback((newTitle: string) => {
     setCardHeader(id, newTitle);
-    // TODO: update card in popup
   }, [id]);
 
   const closePopupClick = useCallback(() => {
@@ -55,17 +56,11 @@ export default function CardPopup(props: CardPopupProps) {
 
   const setDescription = useCallback((newDescription) => {
     setCardDescription(id, newDescription);
-    // TODO: update card in popup
   }, [id]);
-
-  const handleCardChanged = useCallback(() => {
-    // TODO: update card in popup
-  }, []);
 
   const createCommentSubmit = useCallback((text: string) => {
     setIsCreatingComment(false);
     createComment(id, { text });
-    // TODO: update card in popup
   }, [id, setIsCreatingComment]);
 
   return (
@@ -87,10 +82,7 @@ export default function CardPopup(props: CardPopupProps) {
       {comments.map((comment) => (
         <CardComment
           key={comment.id}
-          id={comment.id}
-          text={comment.text}
-          author={comment.author}
-          onCardChanged={handleCardChanged}
+          comment={comment}
         />
       ))}
       {isCreatingComment

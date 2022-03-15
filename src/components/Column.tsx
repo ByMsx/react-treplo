@@ -50,11 +50,7 @@ export default function Column(props: ColumnProps) {
         {cards.map((card) => (
           <CardCollapsed
             key={card.id}
-            id={card.id}
-            header={card.header}
-            comments={card.comments}
-            author={card.author}
-            description={card.description}
+            card={card}
             columnTitle={title}
           />
         ))}
