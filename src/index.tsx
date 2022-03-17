@@ -1,30 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import './views/index.css';
+import { Provider } from 'react-redux';
+import App from './views/App';
 import reportWebVitals from './reportWebVitals';
-import { isUserNameSet, load } from './helpers/data.service';
-import { closePopup, openPopup } from './helpers/popup.service';
-import WelcomePopup from './components/welcome-popup';
-
-load();
+import store from './state/store';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
-
-if (!isUserNameSet()) {
-  openPopup(WelcomePopup, {});
-}
-
-document.body.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    closePopup();
-  }
-});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

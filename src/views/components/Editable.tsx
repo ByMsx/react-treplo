@@ -15,8 +15,9 @@ export default function Editable(props: EditableTitleProps) {
 
   const handleCancelClick = useCallback(() => {
     setIsEditingTitle(false);
+    setTitle('');
     onChange('');
-  }, [setIsEditingTitle]);
+  }, [setIsEditingTitle, setTitle]);
 
   const handleFormSubmit = useCallback((event) => {
     event.preventDefault();
@@ -36,7 +37,7 @@ export default function Editable(props: EditableTitleProps) {
         </form>
       // eslint-disable-next-line max-len
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
-      ) : <span onClick={() => setIsEditingTitle(true)}>{value}</span>}
+      ) : <span onClick={() => setIsEditingTitle(true)}>{value || '...'}</span>}
     </div>
   );
 }
