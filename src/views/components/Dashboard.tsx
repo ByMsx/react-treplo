@@ -1,14 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import Column from './Column';
-import { ColumnType } from '../types';
+import { useAppSelector } from '../../state/hooks';
+import { selectColumns } from '../../state/columns/selectors';
 
-export interface DashboardProps {
-  columns: ColumnType[];
-}
-
-export default function Dashboard(props: DashboardProps) {
-  const { columns } = props;
+export default function Dashboard() {
+  const { columns } = useAppSelector(selectColumns);
 
   return (
     <div>
@@ -19,7 +16,6 @@ export default function Dashboard(props: DashboardProps) {
             <Column
               key={column.id}
               id={column.id}
-              cards={column.cards}
               title={column.title}
             />
           ))}

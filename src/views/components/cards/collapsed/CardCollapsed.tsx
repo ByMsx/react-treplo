@@ -1,22 +1,25 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import CardBodyContainer from './CardBodyContainer';
-import { openPopup } from '../../../helpers/popup.service';
 import CardPopup from '../popup';
 import Author from '../../helpers/Author';
-import { CardType } from '../../../types';
+import { showPopup } from '../../../../state/popup/reducer';
+import { useAppDispatch } from '../../../../state/hooks';
 
-// used at ../popup/index.tsx:33
-// eslint-disable-next-line react/no-unused-prop-types
-export type CardProps = { card: CardType, columnTitle: string };
+export type CardProps = { id: string, header: string, author: string, commentsCount: number };
 
 export default function CardCollapsed(props: CardProps) {
-  const { card: { header, comments, author } } = props;
-  const commentsCount = comments?.length;
+  const {
+    id, header, author, commentsCount,
+  } = props;
+  const dispatch = useAppDispatch();
 
   const handleCardBodyClick = useCallback(() => {
-    openPopup(CardPopup, props);
-  }, [props]);
+    dispatch(showPopup({
+      component: CardPopup,
+      props: { id },
+    }));
+  }, [id, dispatch]);
 
   return (
     <CardBodyContainer onClick={handleCardBodyClick}>

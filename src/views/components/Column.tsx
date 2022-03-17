@@ -2,23 +2,36 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import CardCollapsed from './cards/collapsed/CardCollapsed';
 import Editable from './Editable';
-import * as DataService from '../helpers/data.service';
 import NewCardForm from './cards/collapsed/NewCardForm';
-import { CardType, ColumnType } from '../types';
+import { CardType, ColumnType } from '../../types';
+import { useAppDispatch, useAppSelector } from '../../state/hooks';
+import { renameColumn } from '../../state/columns/reducer';
+import { selectColumnCards } from '../../state/cards/selectors';
+import { createCard } from '../../state/cards/reducer';
+import { selectCommentsCountPerCard } from '../../state/comments/selectors';
 
 export type ColumnProps = ColumnType;
 
 export default function Column(props: ColumnProps) {
-  const { id, title, cards } = props;
+  const { id, title } = props;
+  const dispatch = useAppDispatch();
+  const cards = useAppSelector(selectColumnCards(id));
+  const cardsIds = cards.map((card) => card.id);
+  const commentsCounts = useAppSelector(selectCommentsCountPerCard(cardsIds));
 
   const [isCreatingNewCard, setIsCreatingNewCard] = useState(false);
 
   const handleTitleChange = useCallback((newTitle) => {
-    DataService.setColumnTitle(id, newTitle);
+    dispatch(renameColumn({ columnId: id, newTitle }));
   }, [id]);
 
   const handleCardCreate = useCallback((cardInfo: Pick<CardType, 'header'>) => {
-    DataService.createCard(id, cardInfo);
+    dispatch(createCard({
+      columnId: id,
+      author: '',
+      ...cardInfo,
+    }));
+
     setIsCreatingNewCard(false);
   }, [id, setIsCreatingNewCard]);
 
@@ -31,8 +44,10 @@ export default function Column(props: ColumnProps) {
         {cards.map((card) => (
           <CardCollapsed
             key={card.id}
-            card={card}
-            columnTitle={title}
+            id={card.id}
+            author={card.author}
+            header={card.header}
+            commentsCount={commentsCounts[card.id] || 0}
           />
         ))}
         {!isCreatingNewCard ? (

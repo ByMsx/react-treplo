@@ -29,6 +29,7 @@ module.exports = {
       controlComponents: ['Input'],
     }],
     'no-use-before-define': 0,
+    'no-param-reassign': 0,
   },
   settings: {
     'import/resolver': {

@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { CommentType } from '../../../types';
+import { CommentType } from '../../../../types';
 import CommentForm from './CommentForm';
-import { removeComment, setCommentText } from '../../../helpers/data.service';
 import Author from '../../helpers/Author';
+import { useAppDispatch } from '../../../../state/hooks';
+import { removeComment, updateComment } from '../../../../state/comments/reducer';
 
 export type CardCommentProps = { comment: CommentType };
 
@@ -11,10 +12,11 @@ export default function CardComment(props: CardCommentProps) {
     comment: { id, text, author },
   } = props;
   const [isCommentEditing, setIsCommentEditing] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleCommentRemoveClick = useCallback(() => {
-    removeComment(id);
-  }, [id]);
+    dispatch(removeComment(id));
+  }, [id, dispatch]);
 
   const handleCommentChangeClick = useCallback(() => {
     setIsCommentEditing(true);
@@ -22,8 +24,8 @@ export default function CardComment(props: CardCommentProps) {
 
   const handleCommentChange = useCallback((newText: string) => {
     setIsCommentEditing(false);
-    setCommentText(id, newText);
-  }, [id, setIsCommentEditing]);
+    dispatch(updateComment({ id, text: newText }));
+  }, [id, dispatch, setIsCommentEditing]);
 
   return (
     <div>

@@ -1,19 +1,19 @@
 export interface CommentType {
-  id: number;
+  id: string;
   text: string;
   author: string;
+  cardId: string;
 }
 
 export interface CardType {
-  id: number;
+  id: string;
   header: string;
-  comments: CommentType[];
   description?: string;
   author: string;
+  columnId: string;
 }
 
 export interface ColumnType {
-  id: number;
+  id: string;
   title: string;
-  cards: CardType[];
 }
